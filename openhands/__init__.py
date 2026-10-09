@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 __package_name__ = 'openhands_ai'
@@ -42,3 +43,14 @@ try:
     __version__ = get_version()
 except Exception:
     __version__ = 'unknown'
+
+
+if sys.platform == 'win32':
+    # Stop console windows from flashing open/closed for every subprocess
+    # when OpenHands runs without a console of its own.
+    try:
+        from openhands.utils.windows_console import hide_subprocess_console_windows
+
+        hide_subprocess_console_windows()
+    except Exception:
+        pass
